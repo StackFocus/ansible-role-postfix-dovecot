@@ -1,0 +1,16 @@
+---
+- name: deploy Postfix and Dovecot
+  hosts: all
+  become: yes
+
+  vars:
+  - postfix_dovecot_mysql_password: some_password
+  - dovecot_ssl_cert: "{{ ssl_certs_cert_path }}"
+  - dovecot_ssl_key: "{{ ssl_certs_privkey_path }}"
+  - postfix_ssl_cert: "{{ ssl_certs_cert_path }}"
+  - postfix_ssl_key: "{{ ssl_certs_privkey_path }}"
+  - postfix_default_domain: 'test.local'
+
+  roles:
+  - jdauphant.ssl-certs
+  - /opt/ansible-postfix-dovecot

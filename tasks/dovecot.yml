@@ -1,0 +1,106 @@
+---
+- name: install Dovecot
+  apt:
+    name: "{{ item }}"
+  with_items:
+  - dovecot-core
+  - dovecot-imapd
+  - dovecot-lmtpd
+  - dovecot-mysql
+  notify: restart dovecot
+
+- name: ensure Dovecot is started and runs at startup
+  service:
+    name: dovecot
+    state: started
+    enabled: yes
+
+- name: create vmail group
+  group:
+    name: vmail
+    gid: 5000
+
+- name: create vmail user
+  user:
+    name: vmail
+    group: vmail
+    uid: 5000
+    home: /var/mail
+
+- name: set secure permissions and ownership on /etc/dovecot
+  file:
+    path: /etc/dovecot
+    state: directory
+    owner: vmail
+    group: dovecot
+    mode: o-rwx
+
+- name: create /var/mail/vhosts
+  file:
+    path: /var/mail/vhosts
+    state: directory
+    owner: vmail
+    group: vmail
+
+- name: configure Dovecot (dovecot.conf)
+  template:
+    src: etc/dovecot/dovecot.conf.j2
+    dest: /etc/dovecot/dovecot.conf
+    owner: vmail
+    group: dovecot
+    mode: 0440
+  notify: restart dovecot
+
+- name: configure Dovecot (10-mail.conf)
+  template:
+    src: etc/dovecot/conf.d/10-mail.conf.j2
+    dest: /etc/dovecot/conf.d/10-mail.conf
+    owner: vmail
+    group: dovecot
+    mode: 0440
+  notify: restart dovecot
+
+- name: configure Dovecot (10-auth.conf)
+  template:
+    src: etc/dovecot/conf.d/10-auth.conf.j2
+    dest: /etc/dovecot/conf.d/10-auth.conf
+    owner: vmail
+    group: dovecot
+    mode: 0440
+  notify: restart dovecot
+
+- name: configure Dovecot (dovecot-sql.conf.ext)
+  template:
+    src: etc/dovecot/dovecot-sql.conf.ext.j2
+    dest: /etc/dovecot/dovecot-sql.conf.ext
+    owner: vmail
+    group: dovecot
+    mode: 0440
+  notify: restart dovecot
+
+- name: configure Dovecot (10-master.conf)
+  template:
+    src: etc/dovecot/conf.d/10-master.conf.j2
+    dest: /etc/dovecot/conf.d/10-master.conf
+    owner: vmail
+    group: dovecot
+    mode: 0440
+  notify: restart dovecot
+
+- name: configure Dovecot (10-ssl.conf)
+  template:
+    src: etc/dovecot/conf.d/10-ssl.conf.j2
+    dest: /etc/dovecot/conf.d/10-ssl.conf
+    owner: vmail
+    group: dovecot
+    mode: 0440
+  notify: restart dovecot
+
+- name: configure Dovecot (auth-sql.conf.ext)
+  template:
+    src: etc/dovecot/conf.d/auth-sql.conf.ext.j2
+    dest: /etc/dovecot/conf.d/auth-sql.conf.ext
+    owner: vmail
+    group: dovecot
+    mode: 0440
+  notify: restart dovecot

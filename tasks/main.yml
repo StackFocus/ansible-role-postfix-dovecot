@@ -1,0 +1,9 @@
+---
+# This is separate so that Ansible marks this step as changed instead of the
+# next one when the packages are present
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- include: dovecot.yml
+- include: postfix.yml

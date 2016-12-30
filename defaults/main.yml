@@ -1,0 +1,44 @@
+---
+dovecot_protocols:
+- 'lmtp'
+- 'imap'
+dovecot_mail_privileged_group: 'mail'
+dovecot_disable_plaintext_auth: 'yes'
+dovecot_auth_mechanisms:
+- 'plain'
+- 'login'
+dovecot_force_imaps: True
+dovecot_force_pop3s: True
+dovecot_ssl: 'required'
+dovecot_listen:
+- '*'
+- '::'
+postfix_dovecot_mysql_password_scheme: 'SHA512-CRYPT'
+postfix_dovecot_mysql_host: '127.0.0.1'
+postfix_dovecot_mysql_db_name: 'servermail'
+postfix_dovecot_mysql_user: 'usermail'
+dovecot_mysql_password_query: 'SELECT email as user, password FROM virtual_users WHERE email=''%u'';'
+
+postfix_mysql_alias_query: 'SELECT destination FROM virtual_aliases WHERE source=''%s'';'
+postfix_mysql_domains_query: 'SELECT 1 FROM virtual_domains WHERE name=''%s'';'
+postfix_mysql_users_query: 'SELECT 1 FROM virtual_users WHERE email=''%s'';'
+
+postfix_inet_protocols: 'all'
+postfix_submission_smtpd_client_restrictions:
+- 'permit_sasl_authenticated'
+- 'reject'
+postfix_smtpd_tls_auth_only: 'yes'
+postfix_smtpd_recipient_restrictions:
+- 'permit_sasl_authenticated'
+- 'permit_mynetworks'
+- 'reject_unauth_destination'
+postfix_smtpd_relay_restrictions:
+- 'permit_mynetworks'
+- 'permit_sasl_authenticated'
+- 'defer_unauth_destination'
+postfix_mynetworks:
+- '127.0.0.0/8'
+- '[::ffff:127.0.0.0]/104'
+- '[::1]/128'
+postfix_mydestination:
+- 'localhost'
