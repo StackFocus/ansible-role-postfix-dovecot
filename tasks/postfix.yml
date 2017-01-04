@@ -1,0 +1,69 @@
+---
+- name: install Postfix
+  apt:
+    name: "{{ item }}"
+  with_items:
+  - postfix
+  - postfix-mysql
+  notify: restart postfix
+
+- name: ensure Postfix is started and runs at startup
+  service:
+    name: postfix
+    state: started
+    enabled: yes
+
+- name: configure Postfix (main.cf)
+  template:
+    src: etc/postfix/main.cf.j2
+    dest: /etc/postfix/main.cf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart postfix
+
+- name: configure Postfix (master.cf)
+  template:
+    src: etc/postfix/master.cf.j2
+    dest: /etc/postfix/master.cf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart postfix
+
+- name: configure Postfix (mysql-virtual-alias-maps.cf)
+  template:
+    src: etc/postfix/mysql-virtual-alias-maps.cf.j2
+    dest: /etc/postfix/mysql-virtual-alias-maps.cf
+    owner: postfix
+    group: root
+    mode: 0660
+  notify: restart postfix
+
+- name: configure Postfix (mysql-virtual-mailbox-domains.cf)
+  template:
+    src: etc/postfix/mysql-virtual-mailbox-domains.cf.j2
+    dest: /etc/postfix/mysql-virtual-mailbox-domains.cf
+    owner: postfix
+    group: root
+    mode: 0660
+  notify: restart postfix
+
+- name: configure Postfix (mysql-virtual-mailbox-maps.cf)
+  template:
+    src: etc/postfix/mysql-virtual-mailbox-maps.cf.j2
+    dest: /etc/postfix/mysql-virtual-mailbox-maps.cf
+    owner: postfix
+    group: root
+    mode: 0660
+  notify: restart postfix
+
+- name: set the default domain name to be used by Postfix (/etc/mailname)
+  copy:
+    content: "{{ postfix_default_domain + '\n' }}"
+    dest: /etc/mailname
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart postfix
+  when: postfix_default_domain is defined

@@ -1,0 +1,56 @@
+# This file is managed by Ansible, all changes will be lost
+
+# Debian specific:  Specifying a file name will cause the first
+# line of that file to be used as the name.  The Debian default
+# is /etc/mailname.
+#myorigin = /etc/mailname
+
+smtpd_banner = $myhostname ESMTP $mail_name
+biff = no
+
+# appending .domain is the MUA's job.
+append_dot_mydomain = no
+
+# Uncomment the next line to generate "delayed mail" warnings
+#delay_warning_time = 4h
+
+readme_directory = no
+
+# TLS parameters
+smtpd_tls_cert_file = {{ postfix_ssl_cert }}
+smtpd_tls_key_file = {{ postfix_ssl_key }}
+{% if postfix_ssl_chain is defined %}
+smtp_tls_CAfile = {{ postfix_ssl_chain }}
+{% endif %}
+
+smtpd_use_tls = yes
+smtpd_tls_session_cache_database =
+smtp_tls_session_cache_database =
+
+# See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
+# information on enabling SSL in the smtp client.
+
+smtpd_relay_restrictions = {{ postfix_smtpd_relay_restrictions | join(',') }}
+myhostname = {{ postfix_myhostname | default(ansible_fqdn) }}
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+myorigin = /etc/mailname
+mydestination = {{ postfix_mydestination | join(',') }}
+relayhost = 
+mynetworks = {{ postfix_mynetworks | join(' ') }}
+mailbox_size_limit = 0
+recipient_delimiter = +
+inet_interfaces = all
+inet_protocols = {{ postfix_inet_protocols }}
+
+# Additional parameters
+smtpd_tls_auth_only = {{ postfix_smtpd_tls_auth_only }}
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_auth_enable = yes
+smtpd_recipient_restrictions = {{ postfix_smtpd_recipient_restrictions | join(',') }}
+
+virtual_transport = lmtp:unix:private/dovecot-lmtp
+virtual_mailbox_domains = mysql:/etc/postfix/mysql-virtual-mailbox-domains.cf
+virtual_mailbox_maps = mysql:/etc/postfix/mysql-virtual-mailbox-maps.cf
+virtual_alias_maps = mysql:/etc/postfix/mysql-virtual-alias-maps.cf
