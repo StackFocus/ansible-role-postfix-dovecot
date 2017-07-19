@@ -7,7 +7,7 @@ An Ansible role that automates the installation and configuration of Postfix and
 * **dovecot_ssl_cert** - the path to the SSL certificate used by Dovecot. Note that if you need to provide a certificate chain,
 it must be concatenated after the certificate in the same file.
 * **dovecot_ssl_key** - the path to the SSL key used by Dovecot.
-* **postfix_ssl_cert** - the path to the SSL certificate used by Postfix.
+* **postfix_ssl_cert** - the path to the SSL certificate used by Postfix. This should include the intermediary CA as well if applicable.
 * **postfix_ssl_key** - the path to the SSL key used by Postfix.
 * **postfix_dovecot_mysql_password** - the password to the user that has permission to query the database on the SQL database server used for authentication.
 
@@ -16,7 +16,6 @@ it must be concatenated after the certificate in the same file.
 * **postfix_dovecot_mysql_db_name** - the database name on the MySQL server used for authentication. This defaults to `servermail`.
 * **postfix_dovecot_mysql_user** - the user that has permission to query the database on the MySQL server used for authentication. This defaults to `usermail`.
 * **postfix_dovecot_mysql_password_scheme** - the password scheme used to encrypt passwords in the database. This defaults to `SHA512-CRYPT`.
-* **postfix_ssl_chain** - the path to the SSL certificate chain used by Postfix.
 * **postfix_default_domain** - the value to set the default domain used by Postfix, particularly when Postfix determines the sender's domain when sending bounce messages. This sets the contents of `/etc/mailname`.
 * **postfix_inet_protocols** - the protocol that Postfix should listen on. To have only IPv4, set this value to `ipv4`. This defaults to `all`.
 * **postfix_submission_smtpd_client_restrictions** - a list of client restrictions on the mail submission port (587). For more information visit the [Postfix documentation](http://www.postfix.org/postconf.5.html#smtpd_client_restrictions).

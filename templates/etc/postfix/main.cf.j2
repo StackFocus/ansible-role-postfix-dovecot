@@ -19,9 +19,6 @@ readme_directory = no
 # TLS parameters
 smtpd_tls_cert_file = {{ postfix_ssl_cert }}
 smtpd_tls_key_file = {{ postfix_ssl_key }}
-{% if postfix_ssl_chain is defined %}
-smtp_tls_CAfile = {{ postfix_ssl_chain }}
-{% endif %}
 
 smtpd_use_tls = yes
 smtpd_tls_session_cache_database =
