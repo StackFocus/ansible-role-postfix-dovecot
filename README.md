@@ -1,5 +1,7 @@
 # ansible-role-postfix-dovecot
-An Ansible role that automates the installation and configuration of Postfix and Dovecot with MySQL authentication on Ubuntu.
+An Ansible role that automates the installation and configuration of Postfix and Dovecot with MySQL authentication on Ubuntu. The MySQL schema is derived from the following
+[Digital Ocean tutorial](https://www.digitalocean.com/community/tutorials/how-to-configure-a-mail-server-using-postfix-dovecot-mysql-and-spamassassin).
+You can view the MySQL schema used in [schema.sql](schema.sql).
 
 ## Role Variables
 
