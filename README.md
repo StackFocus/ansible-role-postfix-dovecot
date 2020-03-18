@@ -35,7 +35,7 @@ This defaults to `localhost`.
 * **postfix_mysql_domains_query** - the query used to determine if a domain is valid. This defaults to `SELECT 1 FROM virtual_domains WHERE name='%s';`.
 * **postfix_mysql_users_query** - the query used to determine if an email address is valid. This defaults to `SELECT 1 FROM virtual_users WHERE email='%s';`.
 * **dovecot_mysql_password_query** - the query used to authenticate a user on the MySQL server used for authentication. This defaults to `SELECT email as user, password FROM virtual_users WHERE email='%u';`.
-* **dovecot_protocols** - a list of protocols to be enabled. This defaults to `lmtp` and `imap`. To enable POP3, add `pop3` to this variable.
+* **dovecot_protocols** - a list of protocols to be enabled. This defaults to `lmtp` and `imap`. To enable POP3, add `pop3` to this variable. (note: `apt install dovecot-pop3d` on the target to use pop3)  
 * **dovecot_mail_privileged_group** - the group that owns the folder defined in `dovecot_mail_location`.
 This gives Dovecot's mail process the ability to write in the folder. This defaults to `mail`.
 * **dovecot_disable_plaintext_auth** - determines if authentication without SSL is enabled. This defaults to 'yes'.
@@ -54,7 +54,39 @@ This role must be run with sudo/become or as root, otherwise the role will fail.
 
 ## Example Playbook
 
+_requirements.yml_
 ```yaml
+roles:
+  - name: stackfocus.postfix-dovecot
+    version: v1.1.0
+```
+
+_site.yml_
+```yaml
+- hosts: all
+  become: yes
+  gather_facts: true
+  roles:
+    - stackfocus.postfix-dovecot
+  vars:
+    postfix_dovecot_mysql_db_name: mailserver
+    postfix_dovecot_mysql_user: mailuser
+    postfix_dovecot_mysql_password: mailpass
+    postfix_default_domain: example.com
+    dovecot_protocols:
+      - imap
+      - pop3
+      - lmtp
+    dovecot_mail_privileged_group: vmail
+    dovecot_ssl_cert: /etc/ssl/certs/dovecot.pem
+    dovecot_ssl_key: /etc/ssl/private/dovecot.pem
+    postfix_ssl_cert: /etc/ssl/certs/postfix.pem
+    postfix_ssl_key: /etc/ssl/private/postfix.pem
 
 ```
 
+
+```
+$ ansible-galaxy install -r requirements.yml
+$ ansible-playbook -i inventory site.yml --ask-become-pass
+```
