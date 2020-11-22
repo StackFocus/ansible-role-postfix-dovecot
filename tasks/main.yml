@@ -7,3 +7,4 @@
 
 - include: dovecot.yml
 - include: postfix.yml
+- include: sql.yml

@@ -1,0 +1,13 @@
+---
+- name: Copy database schema.sql file
+  copy:
+    src: schema.sql
+    dest: /tmp
+- name: import database schema.sql
+  mysql_db:
+    name: "{{ postfix_dovecot_mysql_db_name }}"
+    login_user: "{{ postfix_dovecot_mysql_user }}"
+    login_password: "{{ postfix_dovecot_mysql_password }}"
+    state: import
+    target: /tmp/schema.sql
+  notify: restart postfix
