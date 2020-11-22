@@ -7,7 +7,6 @@ dovecot_disable_plaintext_auth: 'yes'
 dovecot_auth_mechanisms:
 - 'plain'
 - 'login'
-- 'cram-md5'
 dovecot_force_imaps: True
 dovecot_force_pop3s: True
 dovecot_ssl: 'required'
