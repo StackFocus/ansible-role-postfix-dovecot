@@ -5,6 +5,7 @@
   with_items:
   - dovecot-core
   - dovecot-imapd
+  - dovecot-pop3d
   - dovecot-lmtpd
   - dovecot-mysql
   notify: restart dovecot
