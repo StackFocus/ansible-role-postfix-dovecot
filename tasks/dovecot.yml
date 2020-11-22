@@ -61,6 +61,16 @@
     mode: 0440
   notify: restart dovecot
 
+- name: configure Dovecot (15-mailboxes.conf)
+  template:
+    src: etc/dovecot/conf.d/15-mailboxes.conf.j2
+    dest: /etc/dovecot/conf.d/15-mailboxes.conf
+    owner: vmail
+    group: dovecot
+    mode: 0440
+  notify: restart dovecot
+
+
 - name: configure Dovecot (10-auth.conf)
   template:
     src: etc/dovecot/conf.d/10-auth.conf.j2

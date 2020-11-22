@@ -1,0 +1,59 @@
+namespace inbox {
+  type = private
+  separator = .
+  inbox = yes
+  mailbox Drafts {
+    special_use = \Drafts
+    auto = subscribe
+  }
+
+  mailbox Junk {
+    special_use = \Junk
+    auto = create
+  }
+
+  mailbox spam {
+    special_use = \Junk
+    auto = no
+  }
+
+  mailbox Spam {
+    special_use = \Junk
+    auto = no
+  }
+
+  mailbox Trash {
+    special_use = \Trash
+    auto = subscribe
+  }
+
+  mailbox TRASH {
+    special_use = \Trash
+    auto = no
+  }
+
+  mailbox Sent {
+    special_use = \Sent
+    auto = subscribe
+  }
+
+  mailbox "Sent Mail" {
+    special_use = \Sent
+    auto = no
+  }
+
+  mailbox "Sent Messages" {
+    special_use = \Sent
+    auto = no
+  }
+
+  mailbox Archive {
+    special_use = \Archive
+    auto = create
+  }
+
+  mailbox "Archives" {
+    special_use = \Archive
+    auto = no
+  }
+}
