@@ -1,5 +1,5 @@
 ---
-- name: Copy database schema.sql file
+- name: SQL | Copy database schema.sql file
   copy:
     src: schema.sql
     dest: /tmp

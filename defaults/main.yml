@@ -42,3 +42,6 @@ postfix_mynetworks:
 - '[::1]/128'
 postfix_mydestination:
 - 'localhost'
+- "{{ ansible_fqdn }}"
+postfix_smtp_dns_support_level: true  #dnssec
+postfix_smtpd_client_message_rate_limit: 100

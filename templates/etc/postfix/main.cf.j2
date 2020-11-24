@@ -3,7 +3,6 @@
 # Debian specific:  Specifying a file name will cause the first
 # line of that file to be used as the name.  The Debian default
 # is /etc/mailname.
-#myorigin = /etc/mailname
 
 smtpd_banner = $myhostname ESMTP $mail_name
 biff = no
@@ -13,8 +12,6 @@ append_dot_mydomain = no
 
 # Uncomment the next line to generate "delayed mail" warnings
 #delay_warning_time = 4h
-
-readme_directory = no
 
 # TLS parameters
 smtpd_tls_cert_file = {{ postfix_ssl_cert }}
@@ -27,12 +24,12 @@ smtp_tls_session_cache_database =
 # See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
 # information on enabling SSL in the smtp client.
 
-smtpd_relay_restrictions = {{ postfix_smtpd_relay_restrictions | join(',') }}
+smtpd_relay_restrictions = {{ postfix_smtpd_relay_restrictions | join(', ') }}
 myhostname = {{ postfix_myhostname | default(ansible_fqdn) }}
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 myorigin = /etc/mailname
-mydestination = {{ postfix_mydestination | join(',') }}
+mydestination = {{ postfix_mydestination | join(', ') }}
 relayhost = 
 mynetworks = {{ postfix_mynetworks | join(' ') }}
 mailbox_size_limit = 0
@@ -45,9 +42,24 @@ smtpd_tls_auth_only = {{ postfix_smtpd_tls_auth_only }}
 smtpd_sasl_type = dovecot
 smtpd_sasl_path = private/auth
 smtpd_sasl_auth_enable = yes
-smtpd_recipient_restrictions = {{ postfix_smtpd_recipient_restrictions | join(',') }}
+smtpd_recipient_restrictions = {{ postfix_smtpd_recipient_restrictions | join(', ') }}
 
 virtual_transport = lmtp:unix:private/dovecot-lmtp
 virtual_mailbox_domains = mysql:/etc/postfix/mysql-virtual-mailbox-domains.cf
 virtual_mailbox_maps = mysql:/etc/postfix/mysql-virtual-mailbox-maps.cf
 virtual_alias_maps = mysql:/etc/postfix/mysql-virtual-alias-maps.cf
+
+address_verify_negative_refresh_time = 60s
+address_verify_sender_ttl = 15686s
+broken_sasl_auth_clients = yes
+compatibility_level = 2
+html_directory = /usr/share/doc/postfix/html
+readme_directory = /usr/share/doc/postfix
+smtpd_client_message_rate_limit = {{ postfix_smtpd_client_message_rate_limit }}
+smtpd_tls_exclude_ciphers = RC4, aNULL
+smtp_tls_exclude_ciphers = RC4, aNULL
+smtp_tls_protocols = !SSLv2,!SSLv3
+smtp_tls_security_level = dane
+{% if postfix_smtp_dns_support_level is sameas true %}
+smtp_dns_support_level = dnssec
+{% endif %}

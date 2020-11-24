@@ -1,0 +1,12 @@
+---
+pkg_dovecot:
+  - dovecot-core
+  - dovecot-imapd
+  - dovecot-pop3d
+  - dovecot-lmtpd
+  - dovecot-mysql
+
+pkg_postfix:
+  - postfix
+  - postfix-mysql
+  - postfix-doc
