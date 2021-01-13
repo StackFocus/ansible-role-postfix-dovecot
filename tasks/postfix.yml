@@ -58,7 +58,7 @@
 
 - name: POSTFIX | configure (helo_access)
   copy:
-    src: helo_access
+    src: postfix_helo_access
     dest: /etc/postfix/helo_access
 
 - name: POSTFIX | postmap /etc/postfix/helo_access (generate /etc/postfix/helo_access.db)
