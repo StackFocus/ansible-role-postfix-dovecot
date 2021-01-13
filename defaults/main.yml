@@ -46,3 +46,9 @@ postfix_mydestination:
 - "{{ ansible_fqdn }}"
 postfix_smtp_dns_support_level: true  #dnssec
 postfix_smtpd_client_message_rate_limit: 100
+postfix_smtpd_helo_restrictions:
+- 'permit_mynetworks'
+- 'permit_sasl_authenticated'
+- 'reject_invalid_helo_hostname'
+- 'reject_non_fqdn_helo_hostname'
+- 'reject_unknown_helo_hostname'
