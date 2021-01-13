@@ -56,6 +56,7 @@ postfix_smtpd_helo_restrictions:
 postfix_smtpd_sender_restrictions:
 - 'permit_mynetworks'
 - 'permit_sasl_authenticated'
+- 'reject_unknown_sender_domain'
 - 'reject_unknown_reverse_client_hostname'
 - 'reject_unknown_client_hostname'
 
