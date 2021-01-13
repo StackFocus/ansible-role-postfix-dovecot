@@ -1,0 +1,12 @@
+---
+- name: POSTGREY | install packages
+  apt:
+    pkg: postgrey
+    state: present
+  notify: restart postfix
+
+- name: POSTGREY | fix (/etc/default/postgrey)
+  copy:
+    src: postgrey-default
+    dest: /etc/default/postgrey
+  notify: restart postgrey
