@@ -32,6 +32,7 @@ postfix_smtpd_recipient_restrictions:
 - 'permit_sasl_authenticated'
 - 'permit_mynetworks'
 - 'reject_unauth_destination'
+- 'reject_unknown_reverse_client_hostname'
 postfix_smtpd_relay_restrictions:
 - 'permit_mynetworks'
 - 'permit_sasl_authenticated'
