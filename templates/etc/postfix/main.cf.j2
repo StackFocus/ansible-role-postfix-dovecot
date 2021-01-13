@@ -47,6 +47,8 @@ smtpd_recipient_restrictions = {{ postfix_smtpd_recipient_restrictions | join(',
 smtpd_helo_required = yes
 smtpd_helo_restrictions = {{ postfix_smtpd_helo_restrictions | join(', ') }}
 
+smtpd_sender_restrictions = {{ postfix_smtpd_sender_restrictions | join(', ') }}
+
 virtual_transport = lmtp:unix:private/dovecot-lmtp
 virtual_mailbox_domains = mysql:/etc/postfix/mysql-virtual-mailbox-domains.cf
 virtual_mailbox_maps = mysql:/etc/postfix/mysql-virtual-mailbox-maps.cf

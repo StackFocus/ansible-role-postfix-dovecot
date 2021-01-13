@@ -53,3 +53,10 @@ postfix_smtpd_helo_restrictions:
 - 'reject_invalid_helo_hostname'
 - 'reject_non_fqdn_helo_hostname'
 - 'reject_unknown_helo_hostname'
+postfix_smtpd_sender_restrictions:
+- 'permit_mynetworks'
+- 'permit_sasl_authenticated'
+- 'reject_unknown_reverse_client_hostname'
+- 'reject_unknown_client_hostname'
+
+
