@@ -56,6 +56,15 @@
     mode: 0660
   notify: restart postfix
 
+- name: POSTFIX | configure (helo_access)
+  copy:
+    src: helo_access
+    dest: /etc/postfix/helo_access
+
+- name: POSTFIX | postmap /etc/postfix/helo_access (generate /etc/postfix/helo_access.db)
+  command: postmap /etc/postfix/helo_access
+  notify: restart postfix
+
 - name: POSTFIX | set the default domain name to be used (/etc/mailname)
   copy:
     content: "{{ postfix_default_domain + '\n' }}"

@@ -49,6 +49,7 @@ postfix_smtpd_client_message_rate_limit: 100
 postfix_smtpd_helo_restrictions:
 - 'permit_mynetworks'
 - 'permit_sasl_authenticated'
+- 'check_helo_access hash:/etc/postfix/helo_access'
 - 'reject_invalid_helo_hostname'
 - 'reject_non_fqdn_helo_hostname'
 - 'reject_unknown_helo_hostname'
