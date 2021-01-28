@@ -1,19 +1,17 @@
 ---
-- name: install Postfix
+- name: POSTFIX | install packages
   apt:
-    name: "{{ item }}"
-  with_items:
-  - postfix
-  - postfix-mysql
+    pkg: "{{ pkg_postfix }}"
+    state: present
   notify: restart postfix
 
-- name: ensure Postfix is started and runs at startup
+- name: POSTFIX | ensure Postfix is started and runs at startup
   service:
     name: postfix
     state: started
     enabled: yes
 
-- name: configure Postfix (main.cf)
+- name: POSTFIX | configure (main.cf)
   template:
     src: etc/postfix/main.cf.j2
     dest: /etc/postfix/main.cf
@@ -22,7 +20,7 @@
     mode: 0644
   notify: restart postfix
 
-- name: configure Postfix (master.cf)
+- name: POSTFIX | configure (master.cf)
   template:
     src: etc/postfix/master.cf.j2
     dest: /etc/postfix/master.cf
@@ -31,7 +29,7 @@
     mode: 0644
   notify: restart postfix
 
-- name: configure Postfix (mysql-virtual-alias-maps.cf)
+- name: POSTFIX | configure (mysql-virtual-alias-maps.cf)
   template:
     src: etc/postfix/mysql-virtual-alias-maps.cf.j2
     dest: /etc/postfix/mysql-virtual-alias-maps.cf
@@ -40,7 +38,7 @@
     mode: 0660
   notify: restart postfix
 
-- name: configure Postfix (mysql-virtual-mailbox-domains.cf)
+- name: POSTFIX | configure (mysql-virtual-mailbox-domains.cf)
   template:
     src: etc/postfix/mysql-virtual-mailbox-domains.cf.j2
     dest: /etc/postfix/mysql-virtual-mailbox-domains.cf
@@ -49,7 +47,7 @@
     mode: 0660
   notify: restart postfix
 
-- name: configure Postfix (mysql-virtual-mailbox-maps.cf)
+- name: POSTFIX | configure (mysql-virtual-mailbox-maps.cf)
   template:
     src: etc/postfix/mysql-virtual-mailbox-maps.cf.j2
     dest: /etc/postfix/mysql-virtual-mailbox-maps.cf
@@ -58,7 +56,27 @@
     mode: 0660
   notify: restart postfix
 
-- name: set the default domain name to be used by Postfix (/etc/mailname)
+- name: POSTFIX | configure (helo_access)
+  copy:
+    src: postfix_helo_access
+    dest: /etc/postfix/helo_access
+
+- name: POSTFIX | postmap /etc/postfix/helo_access (generate /etc/postfix/helo_access.db)
+  command: postmap /etc/postfix/helo_access
+  notify: restart postfix
+
+- name: POSTFIX | Create A Whitelist rbl (/etc/postfix/rbl_override)
+  copy:
+    src: postgrey-rbl_override
+    dest: /etc/postfix/rbl_override
+
+- name: POSTFIX | postmap /etc/postfix/rbl_override (generate /etc/postfix/rbl_override.db)
+  command: postmap /etc/postfix/rbl_override
+  notify: restart postfix
+
+
+
+- name: POSTFIX | set the default domain name to be used (/etc/mailname)
   copy:
     content: "{{ postfix_default_domain + '\n' }}"
     dest: /etc/mailname
