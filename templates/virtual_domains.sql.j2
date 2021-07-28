@@ -1,0 +1,6 @@
+INSERT IGNORE INTO `{{ postfix_dovecot_mysql_db_name }}`.`virtual_domains`
+(`id` ,`name`)
+VALUES
+{% for domain in vmail_virtual_domains %}
+('{{ domain.id }}', '{{ domain.domain }}'){{ ", " if not loop.last else ";" }}
+{% endfor %}

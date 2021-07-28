@@ -1,0 +1,20 @@
+---
+- name: USER | Copy the virtual users SQL files
+  template:
+      src: templates/{{ item }}.sql.j2
+      dest: /tmp/{{ item }}.sql
+  loop:
+  - virtual_domains
+  - virtual_users
+  - virtual_aliases
+- name: USER | Load the virtual users SQL files into the database
+  mysql_db:
+    name: "{{ postfix_dovecot_mysql_db_name }}"
+    login_user: "{{ postfix_dovecot_mysql_user }}"
+    login_password: "{{ postfix_dovecot_mysql_password }}"
+    state: import
+    target: /tmp/{{ item }}.sql
+  loop:
+  - virtual_domains
+  - virtual_users
+  - virtual_aliases

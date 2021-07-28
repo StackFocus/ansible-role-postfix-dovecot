@@ -14,3 +14,7 @@
 - include: postfix.yml
 - include: sql.yml
 - include: postgrey.yml
+- include: add_example_users.yml
+  when:
+    - dovecot_add_example_users is defined
+    - dovecot_add_example_users|bool == true
