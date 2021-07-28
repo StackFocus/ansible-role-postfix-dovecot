@@ -35,6 +35,7 @@ This defaults to `localhost`.
 * **postfix_mysql_domains_query** - the query used to determine if a domain is valid. This defaults to `SELECT 1 FROM virtual_domains WHERE name='%s';`.
 * **postfix_mysql_users_query** - the query used to determine if an email address is valid. This defaults to `SELECT 1 FROM virtual_users WHERE email='%s';`.
 * **dovecot_mysql_password_query** - the query used to authenticate a user on the MySQL server used for authentication. This defaults to `SELECT email as user, password FROM virtual_users WHERE email='%u';`.
+* **postfix_relayhost** - sends email via an upstream relay host. For more information visit the [Postfix documentation](http://www.postfix.org/postconf.5.html#relayhost).
 * **dovecot_protocols** - a list of protocols to be enabled. This defaults to `lmtp` and `imap`. To enable POP3, add `pop3` to this variable. (note: `apt install dovecot-pop3d` on the target to use pop3)  
 * **dovecot_mail_privileged_group** - the group that owns the folder defined in `dovecot_mail_location`.
 This gives Dovecot's mail process the ability to write in the folder. This defaults to `mail`.
