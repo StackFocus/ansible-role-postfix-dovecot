@@ -1,5 +1,5 @@
 ---
-dovecot_user: "dovecot"
+postfix_smtp_tls_security_level: may
 
 pkg_dovecot:
   - dovecot

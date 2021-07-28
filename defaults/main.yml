@@ -53,6 +53,7 @@ postfix_mynetworks:
 postfix_mydestination:
 - 'localhost'
 - "{{ ansible_fqdn }}"
+postfix_smtp_tls_security_level: dane
 postfix_smtp_dns_support_level: true  #dnssec
 postfix_smtpd_client_message_rate_limit: 100
 postfix_smtpd_helo_restrictions:
