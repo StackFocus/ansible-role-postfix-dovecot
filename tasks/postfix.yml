@@ -33,27 +33,27 @@
   template:
     src: etc/postfix/mysql-virtual-alias-maps.cf.j2
     dest: /etc/postfix/mysql-virtual-alias-maps.cf
-    owner: postfix
+    owner: root
     group: root
-    mode: 0660
+    mode: 0640
   notify: restart postfix
 
 - name: POSTFIX | configure (mysql-virtual-mailbox-domains.cf)
   template:
     src: etc/postfix/mysql-virtual-mailbox-domains.cf.j2
     dest: /etc/postfix/mysql-virtual-mailbox-domains.cf
-    owner: postfix
+    owner: root
     group: root
-    mode: 0660
+    mode: 0640
   notify: restart postfix
 
 - name: POSTFIX | configure (mysql-virtual-mailbox-maps.cf)
   template:
     src: etc/postfix/mysql-virtual-mailbox-maps.cf.j2
     dest: /etc/postfix/mysql-virtual-mailbox-maps.cf
-    owner: postfix
+    owner: root
     group: root
-    mode: 0660
+    mode: 0640
   notify: restart postfix
 
 - name: POSTFIX | configure (helo_access)
