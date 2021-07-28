@@ -57,7 +57,9 @@ virtual_alias_maps = mysql:/etc/postfix/mysql-virtual-alias-maps.cf
 address_verify_negative_refresh_time = 60s
 address_verify_sender_ttl = 15686s
 broken_sasl_auth_clients = yes
+{% if (ansible_os_family != 'RedHat') and (ansible_distribution_major_version <= 7) %}
 compatibility_level = 2
+{% endif %}
 html_directory = /usr/share/doc/postfix/html
 readme_directory = /usr/share/doc/postfix
 smtpd_client_message_rate_limit = {{ postfix_smtpd_client_message_rate_limit }}

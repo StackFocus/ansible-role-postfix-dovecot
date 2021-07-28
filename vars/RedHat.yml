@@ -1,4 +1,5 @@
 ---
+postfix_smtp_dns_support_level: false
 postfix_smtp_tls_security_level: may
 
 pkg_dovecot:
