@@ -1,0 +1,9 @@
+---
+dovecot_user: "dovecot"
+
+pkg_dovecot:
+  - dovecot
+  - dovecot-mysql
+
+pkg_postfix:
+  - postfix

@@ -1,7 +1,7 @@
 ---
 - name: POSTGREY | install packages
-  apt:
-    pkg: postgrey
+  package:
+    name: postgrey
     state: present
   notify: restart postfix
 

@@ -50,7 +50,9 @@ For more information, read Dovecot's [SSL Configuration](http://wiki.dovecot.org
 
 ## Requirements
 
-This role must be run with sudo/become or as root, otherwise the role will fail.
+* This role must be run with sudo/become or as root, otherwise the role will fail.
+* The MySQL server needs to be pre-configured, and the user should already have the appropriate permissions to the database (see [defaults/main.yml] for default values).
+* On Red Hat servers, you need to pre-install PyMSQL (python{2,3}-PyMySQL, which ever is more appropriate to you)
 
 ## Example Playbook
 
@@ -58,7 +60,6 @@ _requirements.yml_
 ```yaml
 roles:
   - name: stackfocus.postfix-dovecot
-    version: v1.1.0
 ```
 
 _site.yml_

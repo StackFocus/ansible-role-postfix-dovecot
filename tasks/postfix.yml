@@ -1,7 +1,7 @@
 ---
 - name: POSTFIX | install packages
-  apt:
-    pkg: "{{ pkg_postfix }}"
+  package:
+    name: "{{ pkg_postfix }}"
     state: present
   notify: restart postfix
 
