@@ -35,6 +35,8 @@ This defaults to `localhost`.
 * **postfix_mysql_domains_query** - the query used to determine if a domain is valid. This defaults to `SELECT 1 FROM virtual_domains WHERE name='%s';`.
 * **postfix_mysql_users_query** - the query used to determine if an email address is valid. This defaults to `SELECT 1 FROM virtual_users WHERE email='%s';`.
 * **dovecot_mysql_password_query** - the query used to authenticate a user on the MySQL server used for authentication. This defaults to `SELECT email as user, password FROM virtual_users WHERE email='%u';`.
+* **postfix_relayhost** - sends email via an upstream relay host. For more information visit the [Postfix documentation](http://www.postfix.org/postconf.5.html#relayhost).
+* **postfix_smtp_tls_security_level** - the SMTP TLS security level for the Postfix SMTP server (sending). Default for Debian and Red Hat >= 8 is `dane`, for Red Hat 7 is `may`. For more information visit the [Postfix documentation](http://www.postfix.org/postconf.5.html#smtpd_tls_security_level)
 * **dovecot_protocols** - a list of protocols to be enabled. This defaults to `lmtp` and `imap`. To enable POP3, add `pop3` to this variable. (note: `apt install dovecot-pop3d` on the target to use pop3)  
 * **dovecot_mail_privileged_group** - the group that owns the folder defined in `dovecot_mail_location`.
 This gives Dovecot's mail process the ability to write in the folder. This defaults to `mail`.
@@ -47,10 +49,13 @@ Note that to also enable POP3S, you need to add pop3 to the `dovecot_protocols` 
 * **dovecot_ssl** - determines whether or not SSL is enforced across all protocols. This defaults to `required`.
 For more information, read Dovecot's [SSL Configuration](http://wiki.dovecot.org/SSL/DovecotConfiguration) documentation.
 * **dovecot_listen** - a list of IP or host addresses where Dovecot listens for connections. This defaults to `*` (all IPv4) and '::' (all IPv6).
+* **dovecot_add_example_users** - when set to `true`, adds example users to the database
 
 ## Requirements
 
-This role must be run with sudo/become or as root, otherwise the role will fail.
+* This role must be run with sudo/become or as root, otherwise the role will fail.
+* The MySQL server needs to be pre-configured, and the user should already have the appropriate permissions to the database (see [defaults/main.yml] for default values).
+* On Red Hat servers, you need to pre-install PyMSQL (python{2,3}-PyMySQL, which ever is more appropriate to you)
 
 ## Example Playbook
 
@@ -58,7 +63,6 @@ _requirements.yml_
 ```yaml
 roles:
   - name: stackfocus.postfix-dovecot
-    version: v1.1.0
 ```
 
 _site.yml_

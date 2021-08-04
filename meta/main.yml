@@ -8,6 +8,10 @@ galaxy_info:
     versions:
     - trusty
     - xenial
+  - name: EL
+    versions:
+      - 7
+      - 8
   galaxy_tags:
   - dovecot
   - postfix

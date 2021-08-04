@@ -53,6 +53,7 @@ postfix_mynetworks:
 postfix_mydestination:
 - 'localhost'
 - "{{ ansible_fqdn }}"
+postfix_smtp_tls_security_level: dane
 postfix_smtp_dns_support_level: true  #dnssec
 postfix_smtpd_client_message_rate_limit: 100
 postfix_smtpd_helo_restrictions:
@@ -69,4 +70,24 @@ postfix_smtpd_sender_restrictions:
 - 'reject_unknown_reverse_client_hostname'
 - 'reject_unknown_client_hostname'
 
+vmail_virtual_domains:
+  - id: 1
+    domain: example.com
+  - id: 2
+    domain: hostname.example.com
 
+vmail_virtual_users:
+  - id: 1
+    domain_id: 1
+    password: 'firstpassword'
+    email: 'email1@example.com'
+  - id: 2
+    domain_id: 1
+    password: 'secondpassword'
+    email: 'email2@example.com'
+
+vmail_virtual_aliases:
+  - id: 1
+    domain_id: 1
+    source: 'alias@example.com'
+    destination: 'email1@example.com'

@@ -1,7 +1,7 @@
 ---
 - name: DOVECOT | install packages
-  apt:
-    pkg: "{{ pkg_dovecot }}"
+  package:
+    name: "{{ pkg_dovecot }}"
     state: present
   notify: restart dovecot
 

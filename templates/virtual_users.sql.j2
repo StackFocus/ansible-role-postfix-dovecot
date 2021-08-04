@@ -1,0 +1,6 @@
+INSERT IGNORE INTO `{{ postfix_dovecot_mysql_db_name }}`.`virtual_users`
+(`id`, `domain_id`, `password` , `email`)
+VALUES
+{% for user in vmail_virtual_users %}
+('{{ user.id }}', '{{ user.domain_id }}', ENCRYPT('{{ user.password }}', CONCAT('$6$', SUBSTRING(SHA(RAND()), -16))), '{{ user.email }}'){{ ", " if not loop.last else ";" }}
+{% endfor %}

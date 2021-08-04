@@ -1,0 +1,6 @@
+INSERT IGNORE INTO `{{ postfix_dovecot_mysql_db_name }}`.`virtual_aliases`
+(`id`, `domain_id`, `source`, `destination`)
+VALUES
+{% for alias in vmail_virtual_aliases %}
+('{{ alias.id }}', '{{ alias.domain_id }}', '{{ alias.source }}', '{{ alias.destination }}'){{ ", " if not loop.last else ";" }}
+{% endfor %}

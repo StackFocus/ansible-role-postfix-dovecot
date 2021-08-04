@@ -1,11 +1,20 @@
 ---
 # This is separate so that Ansible marks this step as changed instead of the
 # next one when the packages are present
-- name: Update apt cache
+- name: START | Update apt cache (Debian/Ubuntu)
   apt:
     update_cache: yes
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: START | Include vars specific to each OS family
+  include_vars: "vars/{{ ansible_os_family }}.yml"
 
 - include: dovecot.yml
 - include: postfix.yml
 - include: sql.yml
 - include: postgrey.yml
+- include_tasks: add_example_users.yml
+  when:
+    - dovecot_add_example_users is defined
+    - dovecot_add_example_users|bool == true
