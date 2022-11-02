@@ -108,8 +108,8 @@ roles:
 
 Playbook prepare for you:
 
-* database and it's users
-* let'encrypt certificate
+* database and its users
+* Let's Encrypt certificate
 * mail transport service postfix
 * mailbox service dovecot
 
